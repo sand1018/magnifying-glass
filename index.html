@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #box {
+            margin: 100px 0 0 100px;
+        }
+
+        #pic-box {
+            width: 350px;
+            height: 350px;
+            border: 1px solid #ddd;
+            position: relative;
+            padding: 10px;
+        }
+
+        #pic-box .drag-box {
+            height: 80px;
+            width: 80px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: orange;
+            opacity: 0.4;
+            cursor: move;
+            display: none;
+        }
+
+        #pic-box img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .img-list {
+            margin-top: 20px;
+        }
+
+        #right {
+            float: left;
+            margin-left: 20px;
+            border: 1px solid #ddd;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            width: 600px;
+            height: 600px;
+        }
+
+        #right img {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div style="float: left;">
+            <div id="pic-box">
+                <img src="./images/pic001.jpg" alt="">
+                <div class="drag-box"></div>
+            </div>
+            <div class="img-list">
+
+            </div>
+        </div>
+
+        <div id="right">
+            <img src="./images/pic01.jpg" alt="">
+        </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        imgList = ['./images/pic0001.jpg', './images/pic0002.jpg', './images/pic0003.jpg']
+        $(imgList).each(function (i, ele) {
+            var img = $('<img>').css({
+                position: 'left',
+                'margin-right': '20px',
+                width: '60px',
+                height: '60px',
+                cursor: 'pointer',
+                border: i == 0 ? '1px solid red' : ''
+            }).attr('src', ele)
+            $('.img-list').append(img)
+        })
+        $('.img-list img').click(function () {
+            $(this).css({
+                border: '1px solid red'
+            }).siblings().css({
+                border: 'none'
+            })
+            $('#pic-box').children('img').attr('src', $(this).attr('src').replace(/000/g, '00'))
+            $('#right img').attr('src', $(this).attr('src').replace(/000/g, '0'))
+        })
+        $('#pic-box').mouseover(function (e) {
+            $('.drag-box').css({
+                display: 'block'
+            })
+            $('#right').css({
+                display: 'block'
+            })
+
+        }).mouseout(function () {
+            $('.drag-box').css({
+                display: 'none'
+            })
+            $('#right').css({
+                display: 'none'
+            })
+        }).mousemove(function (e) {
+            var x = e.clientX - $(this).offset().left - $('.drag-box').outerWidth() * 0.5
+            var y = e.clientY - $(this).offset().top - $('.drag-box').outerHeight() * 0.5
+            if (x <= 0) {
+                x = 0
+            } else if (x >= $(this).outerWidth() - $('.drag-box').outerWidth()) {
+                x = $(this).outerWidth() - $('.drag-box').outerWidth()
+            }
+            if (y <= 0) {
+                y = 0
+            } else if (y >= $(this).outerHeight() - $('.drag-box').outerHeight()) {
+                y = $(this).outerHeight() - $('.drag-box').outerHeight()
+            }
+            $('.drag-box').css({
+                left: x + 'px',
+                top: y + 'px'
+            })
+            $('#right img').css({
+                left: -x / $(this).outerWidth() * $('#right').outerWidth() + 'px',
+                top: -y / $(this).outerHeight() * $('#right').outerHeight() + 'px'
+            })
+        })
+    </script>
+</body>
+
+</html>
