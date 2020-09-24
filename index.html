@@ -85,7 +85,7 @@
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        imgList = ['./images/pic0001.jpg', './images/pic0002.jpg', './images/pic0003.jpg']
+       var imgList = ['./images/pic0001.jpg', './images/pic0002.jpg', './images/pic0003.jpg']
         $(imgList).each(function (i, ele) {
             var img = $('<img>').css({
                 position: 'left',
@@ -107,20 +107,11 @@
             $('#right img').attr('src', $(this).attr('src').replace(/000/g, '0'))
         })
         $('#pic-box').mouseover(function (e) {
-            $('.drag-box').css({
-                display: 'block'
-            })
-            $('#right').css({
-                display: 'block'
-            })
-
+            $('.drag-box').show()
+            $('#right').show()
         }).mouseout(function () {
-            $('.drag-box').css({
-                display: 'none'
-            })
-            $('#right').css({
-                display: 'none'
-            })
+            $('.drag-box').hide()
+            $('#right').hide()
         }).mousemove(function (e) {
             var x = e.clientX - $(this).offset().left - $('.drag-box').outerWidth() * 0.5
             var y = e.clientY - $(this).offset().top - $('.drag-box').outerHeight() * 0.5
